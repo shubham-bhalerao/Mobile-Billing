@@ -1,0 +1,29 @@
+<% include partials/header %>
+<div class="container">
+   <div class="jumbotron">
+      <div class="container">
+         <h1 class="display-4">View All Your Bills in one place</h1>
+         <p class="lead">Showing Bills for user : <%=user.firstName%> <%=user.lastName%></p>
+         <%if(user.isAdmin){%>
+         <p><strong>Admin</strong></p>
+         <%}%>
+      </div>
+   </div>
+   <div class="row text-center">
+      <%user.bills.forEach(function(bill,i){ %>
+         <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+               <div class="card-body">
+                  <h5 class="card-title"><%=bill.productName%></h5>
+                  <h6 class="card-subtitle mb-2 text-muted"><%=bill.author.username%></h6>
+                  <p class="card-text">Type Of SimCard : <%=bill.preOrPost%></p>
+                  <p class="card-text">Price : <%=bill.price%></p>
+               </div>
+            </div>
+         </div>
+         <% })%>
+      </div>
+   </div>
+
+
+   <% include partials/footer %>

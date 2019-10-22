@@ -1,0 +1,83 @@
+<% include ../partials/header%>
+<div class="container">
+   <div class="row">
+      <div class="col-md-3">
+         <p>Mobile Billing System App</p>
+         <ul class="list-group">
+            <li class="list-group-item active">Info 1</li>
+            <li class="list-group-item">Info 2</li>
+            <li class="list-group-item">Info 3</li>
+         </ul>
+      </div>
+
+      <div class="col-md-9">
+         <div class="card campground-section">
+            <img class="img-responsive show-img card-img-top" src="<%=mobile.image%>">
+            <div class="card-body">
+               <span class="text-right">
+                  <%=mobile.price%></span>
+               <h4 class="card-title">
+                  <%=mobile.name%>
+               </h4>
+               <p>
+                  <%=mobile.description %>
+               </p>
+               <p><i>Submitted By <a href="/users/<%=mobile.author.id%>">
+                        <%=mobile.author.username%></a></i></p>
+               <% if(currentUser && mobile.author.id.equals(currentUser._id)){ %>
+               <a href="/buy/<%=mobile._id%>" class="btn btn-primary btn-xs">Buy</a>
+               <%}%>
+               <%if(currentUser && mobile.author.id.equals(currentUser._id) ||(currentUser && currentUser.isAdmin)){%>
+               <a href="/mobiles/<%=mobile._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
+               <form action="/mobiles/<%=mobile._id%>?_method=DELETE" method="POST" class="delete-form">
+                  <button class="btn btn-xs btn-danger">Delete</button>
+               </form>
+               <%}%>
+        </div>
+      </div>
+      <div class="card comment-section">
+        <div class="card-body">
+          <div class="text-right">
+            <a class="btn btn-success" href="/mobiles/<%= mobile._id %>/comments/new">Add New Comment</a>
+            </div>
+            <hr>
+            <div class="row">
+               <% mobile.comments.forEach(function(comment){ %>
+               <div class="col-md-12 mb-2">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="float-left">
+                           <p class="card-title"><strong>
+                                 <%= comment.author.username %></strong></p>
+                           <p class="card-text">
+                              <%= comment.text %>
+                           </p>
+                        </div>
+                        <div class="float-right">
+                           <p>10 days ago</p>
+                           <% if(currentUser && comment.author.id.equals(currentUser._id)||(currentUser && currentUser.isAdmin) ){ %>
+                           <div class="float-right">
+                              <a href="/mobiles/<%=mobile._id%>/comments/<%=comment._id%>/edit"
+                                 class="btn btn-sm btn-warning">EDIT</a>
+                              <form class="delete-form"
+                                 action="/mobiles/<%=mobile._id%>/comments/<%=comment._id%>?_method=DELETE"
+                                 method="POST">
+                                 <button class="btn btn-sm btn-danger">DELETE</button>
+                              </form>
+                           </div>
+                           <% } %>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <% }) %>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+
+<p>
+
+   <% include ../partials/footer%>

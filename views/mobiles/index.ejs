@@ -1,0 +1,79 @@
+<% include ../partials/header%>
+
+<div class="container">
+   <div class="jumbotron">
+      <div class="container">
+         <h1>Welcome To Mobile Billing App</h1>
+         <p>Solution to mobile billing using database</p>
+         <a href="/mobiles/new" class="btn btn-primary btn-lg">Add mobile</a>
+         <p>
+            <form action="/mobiles" method="GET" class="form-inline">
+               <div class="form-group ui-widget">
+                  <input type="text" id="tags" name="search" placeholder="Search..." class="form-control">
+                  <input type="submit" value="Search" class="form-control">
+               </div>
+            </form>
+         </p>
+      </div>
+   </div>
+   <div class="row text-center id=" campground-grid">
+      <% mobiles.forEach(function(campground){ %>
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+         <div class="card h-100">
+            <img class="card-img-top idx-img img-responsive" src="<%= campground.image%>" alt="Campground image">
+            <div class="card-body">
+               <h5 class="card-title"><%=campground.name %></h5>
+               <a href="/mobiles/<%=campground._id%>" class="btn btn-primary">More Info</a>
+            </div>
+         </div>
+      </div>
+      <% }); %>
+   </div>
+</div>
+
+
+<!-- For AutoComplete -->
+<script>
+   $(function () {
+      // var availableTags=[];
+      // Campground.find({},function(err,campgrounds){
+      //     if(err){
+      //         console.log(err);
+      //     } else {
+      //         campgrounds.forEach(function(campground){
+      //             availableTags.push(campground.name);
+      //             availableTags.push(campground.author.username);
+      //         });
+      //     }
+      // });
+      var availableTags = [
+         "ActionScript",
+         "AppleScript",
+         "Asp",
+         "BASIC",
+         "C",
+         "C++",
+         "Clojure",
+         "COBOL",
+         "ColdFusion",
+         "Erlang",
+         "Fortran",
+         "Groovy",
+         "Haskell",
+         "Java",
+         "JavaScript",
+         "Lisp",
+         "Perl",
+         "PHP",
+         "Python",
+         "Ruby",
+         "Scala",
+         "Scheme"
+      ];
+      $("#tags").autocomplete({
+         source: availableTags
+      });
+   });
+</script>
+
+<% include ../partials/footer%>

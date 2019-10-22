@@ -1,0 +1,21 @@
+<% include partials/header %>
+<div class="container">
+   <h1><%=user.firstName%> <%=user.lastName%></h1>
+   <img src="<%=user.image%>" class="img-rounded profile-pic">
+   <h1>Mobiles Posted By: <%=user.username%></h1>
+   <div class="row text-center id=" campground-grid">
+      <% mobiles.forEach(function(campground){ %>
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+         <div class="card h-100">
+            <img class="card-img-top idx-img img-responsive" src="<%= campground.image%>" alt="Campground image">
+            <div class="card-body">
+               <h5 class="card-title"><%=campground.name %></h5>
+               <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">More Info</a>
+            </div>
+         </div>
+      </div>
+      <% }); %>
+   </div>
+</div>
+
+<% include partials/footer %>
