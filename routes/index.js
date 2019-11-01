@@ -170,4 +170,25 @@ router.post("/contact", async function (req, res) {
 
 });
 
+router.get("/compare", function (req, res) {
+   res.render("compare");
+});
+
+router.post("/compare", async function (req, res) {
+   try {
+      const mob1 = req.body.mobile1;
+      const mob2 = req.body.mobile2;
+      const foundMobile1 = await Mobile.findOne({ "name": { $regex: new RegExp(mob1, "i") } });
+      const foundMobile2 = await Mobile.findOne({ "name": { $regex: new RegExp(mob2, "i") } });
+      if (!foundMobile1 || !foundMobile2) {
+         req.flash("error", "Please enter valid mobile names");
+         res.redirect("back");
+      }
+      res.render("comparePhones", { mobileOne: foundMobile1, mobileTwo: foundMobile2 });
+   } catch (e) {
+      console.log(e.message);
+      res.redirect("back");
+   }
+});
+
 module.exports = router;

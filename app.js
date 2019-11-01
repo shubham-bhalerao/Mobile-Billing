@@ -18,7 +18,8 @@ var mobileRoutes = require("./routes/mobiles");
 var indexRoutes = require("./routes/index");
 
 mongoose.connect("mongodb://localhost:27017/mobile-system", {
-   useNewUrlParser: true
+   useNewUrlParser: true,
+   useUnifiedTopology: true
 });
 
 app.set("view engine", "ejs");
