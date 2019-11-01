@@ -4,6 +4,10 @@ var mobileSchema = new mongoose.Schema({
    name: String,
    image: String,
    description: String,
+   ram: String,
+   link: String,
+   cpu: String,
+   camera: String,
    comments: [
       {
          type: mongoose.Schema.Types.ObjectId,

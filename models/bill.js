@@ -10,7 +10,7 @@ var billSchema = new mongoose.Schema({
    },
    productName: String,
    price: String,
-   preOrPost: String
+   type: String
 });
 
 module.exports = mongoose.model("Bill", billSchema);

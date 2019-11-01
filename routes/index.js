@@ -1,8 +1,11 @@
+require('dotenv').config();
 var express = require("express");
+var nodemailer = require("nodemailer");
 var router = express.Router();
 var User = require("../models/user");
 var passport = require("passport");
 var Mobile = require("../models/mobile");
+var middleware = require("../middleware/index");
 var Bill = require("../models/bill");
 
 
@@ -108,13 +111,13 @@ router.get("/bills/:id", function (req, res) {
    });
 });
 
-router.get("/buy/:id", function (req, res) {
+router.get("/buy/:id", middleware.isLoggedIn, function (req, res) {
    Mobile.findById(req.params.id, function (err, mobile) {
       res.render("newBill", { mobile });
    });
 })
 
-router.post("/bills/:id", function (req, res) {
+router.post("/bills/:id", middleware.isLoggedIn, function (req, res) {
    User.findById(req.user._id).populate("bills").exec(function (err, user) {
       if (!user || err) {
          res.redirect("back");
@@ -133,6 +136,38 @@ router.post("/bills/:id", function (req, res) {
          });
       }
    });
+});
+
+
+router.get("/contact", function (req, res) {
+   res.render("contact");
+});
+
+router.post("/contact", async function (req, res) {
+   var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+         user: process.env.EMAIL,
+         pass: process.env.PASS
+      }
+   });
+   var mailOptions = {
+      to: req.body.email,
+      from: process.env.EMAIL,
+      subject: 'Query Posted on Mobile App',
+      html: `<h1>Hi ${req.body.firstName} ${req.body.lastName},</h1>
+            <h2>This mail is regarding your query just posted on the mobile app</h2>
+            <hr>
+            <p>${req.body.feedback}</p>
+            <hr>
+            <p>We hope to recieve your complaint/query as soon as possible!</p>
+            <h2>Thanks for Contacting Us!</h2>`
+   };
+   smtpTransport.sendMail(mailOptions, function (err) {
+      req.flash('success', 'An e-mail has been sent to ' + req.body.email);
+      res.redirect("/mobiles");
+   });
+
 });
 
 module.exports = router;

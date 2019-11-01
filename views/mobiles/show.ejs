@@ -2,8 +2,7 @@
 <div class="container">
    <div class="row">
       <div class="col-md-3">
-         <p>Mobile Billing System App</p>
-         <ul class="list-group">
+         <ul class="list-group" style="margin-top: 30px;">
             <li class="list-group-item active">Info 1</li>
             <li class="list-group-item">Info 2</li>
             <li class="list-group-item">Info 3</li>
@@ -14,19 +13,35 @@
          <div class="card campground-section">
             <img class="img-responsive show-img card-img-top" src="<%=mobile.image%>">
             <div class="card-body">
-               <span class="text-right">
-                  <%=mobile.price%></span>
-               <h4 class="card-title">
-                  <%=mobile.name%>
-               </h4>
+               <div class="card-title">
+                  <h4 style="display: inline;"><%=mobile.name%></h4>
+                  <span style="float: right;" class="text-right">
+                     <a href="<%=mobile.link%>" class="btn btn-secondary btn-xs">View official website</a>
+
+                     <a href="/buy/<%=mobile._id%>" class="btn btn-primary btn-xs">Buy for <%=mobile.price%></a>
+
+               </div>
+               <hr>
+               <p style="font-size: 1.5rem;">Specifications:</p>
+               <p style="font-size: 1rem;">
+                  CPU : <%=mobile.cpu %>
+               </p>
+               <p style="font-size: 1rem;">
+                  RAM AND STORAGE :<%=mobile.ram %>
+               </p>
+               <p style="font-size: 1rem;">
+                  CAMERA : <%=mobile.camera%>
+               </p>
+               <hr>
+               <p style="font-size: 1.5rem;">Description:</p>
+
                <p>
                   <%=mobile.description %>
                </p>
                <p><i>Submitted By <a href="/users/<%=mobile.author.id%>">
                         <%=mobile.author.username%></a></i></p>
-               <% if(currentUser && mobile.author.id.equals(currentUser._id)){ %>
-               <a href="/buy/<%=mobile._id%>" class="btn btn-primary btn-xs">Buy</a>
-               <%}%>
+
+
                <%if(currentUser && mobile.author.id.equals(currentUser._id) ||(currentUser && currentUser.isAdmin)){%>
                <a href="/mobiles/<%=mobile._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
                <form action="/mobiles/<%=mobile._id%>?_method=DELETE" method="POST" class="delete-form">
@@ -38,7 +53,7 @@
       <div class="card comment-section">
         <div class="card-body">
           <div class="text-right">
-            <a class="btn btn-success" href="/mobiles/<%= mobile._id %>/comments/new">Add New Comment</a>
+            <a class="btn btn-success" href="/mobiles/<%= mobile._id %>/comments/new">Add A Review</a>
             </div>
             <hr>
             <div class="row">
